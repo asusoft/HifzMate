@@ -16,7 +16,7 @@ import {
     Amiri_400Regular_Italic,
     Amiri_700Bold,
     Amiri_700Bold_Italic,
-  } from '@expo-google-fonts/amiri';
+} from '@expo-google-fonts/amiri';
 
 // create a component
 const Chapter = () => {
@@ -26,9 +26,9 @@ const Chapter = () => {
         Amiri_400Regular_Italic,
         Amiri_700Bold,
         Amiri_700Bold_Italic,
-      });
+    });
 
-    const [chapterID, setChapterID] = useState(1);
+    const [chapterID, setChapterID] = useState(2);
     const [chapter, setChapter] = useState([]);
     const [verses, setVerses] = useState([])
 
@@ -39,6 +39,7 @@ const Chapter = () => {
             const verse = {
                 number: data.result.aya,
                 text: data.result.arabic_text,
+                translation: data.result.translation
             };
             return verse
         } catch (error) {
@@ -55,20 +56,37 @@ const Chapter = () => {
             })
     }, [chapterID]);
 
+    React.useEffect(() => {
+        axios.get(`https://api.quran.gading.dev/surah/${chapterID}`)
+            .then(res => {
+                const verses = res.data.data.verses;
+                setVerses(verses)
+            })
+    }, [chapterID]);
+
 
     React.useEffect(() => {
-        axios.get(`https://api.quran.com/api/v4/chapters/${chapterID}?language=en`)
-            .then(res => {
-                const chapter = res.data;
-                setVerses(chapter.chapter);
-            })
+        const fetchVerses = async () => {
+            try {
+                const allVerses = [];
 
-            console.log(verses)
+                const fetchPromises = [];
+
+                for (let i = 1; i < chapter.verses_count + 1; i++) {
+                    const versePromise = fetchVerse(`${chapter.id}/${i}`);
+                    fetchPromises.push(versePromise);
+                }
+
+                const verses = await Promise.all(fetchPromises);
+
+                allVerses.push(...verses);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchVerses();
+        console.log(verses)
     }, [chapter]);
-
- 
-
-
 
 
     function RenderHeader() {
@@ -105,155 +123,158 @@ const Chapter = () => {
         );
     }
 
-    function RenderVerses() {
+    function RenderVerses(verses) {
         return (
             <View
                 style={{
                     marginTop: 35,
                 }}>
-                <View style={{
-                    marginTop: 10,
-                    marginHorizontal: 25,
-                    borderRadius: 12,
-                    height: 47,
-                    backgroundColor: COLORS.inactive
-                }}>
-                    <Image
-                        source={icons.ayah}
-                        resizeMode='stretch'
-                        style={{
+                    {verses.map((verse) => (
+                     <View key={verse.number.inSurah}>
+                     <View style={{
+                        marginTop: 10,
+                        marginHorizontal: 25,
+                        borderRadius: 12,
+                        height: 47,
+                        backgroundColor: COLORS.inactive
+                    }}>
+                        <Image
+                            source={icons.ayah}
+                            resizeMode='stretch'
+                            style={{
+                                width: 36,
+                                top: 5,
+                                left: 5,
+                                height: 36,
+                                position: 'absolute',
+                                tintColor: COLORS.secondary
+                            }}
+                        />
+                        <View style={{
                             width: 36,
                             top: 5,
                             left: 5,
                             height: 36,
-                            position: 'absolute',
-                            tintColor: COLORS.secondary
-                        }}
-                    />
+                            alignItems: "center",
+                            justifyContent: "center"
+                        }}>
+                            <Text style={{
+                                fontSize: 14,
+                                color: COLORS.secondary
+                            }}>{verse.number.inSurah}</Text>
+                        </View>
+                    </View>
                     <View style={{
-                        width: 36,
-                        top: 5,
-                        left: 5,
-                        height: 36,
-                        alignItems: "center",
-                        justifyContent: "center"
+                        marginTop: 12,
+                        marginHorizontal: 25,
+                        borderBottomWidth: 0.2,
+                        borderBottomColor: COLORS.gray
                     }}>
                         <Text style={{
-                            fontSize: 14,
-                            color: COLORS.secondary
-                        }}>{chapter.id}</Text>
+                            fontSize: 20,
+                            fontWeight: '600',
+                            right: 0,
+                            textAlign: 'right',
+                            writingDirection: 'rtl',
+                            fontFamily: 'Amiri_700Bold',
+                        }}>
+                            {verse.text.arab} </Text>
+                        <Text style={{
+                            fontSize: 16,
+                            marginTop: 10,
+                            marginBottom: 20,
+                        }}> {verse.translation.en}</Text>
                     </View>
-                </View>
-                <View style={{
-                    marginTop: 12,
-                    marginHorizontal: 25,
-                    borderBottomWidth: 0.2,
-                    borderBottomColor: COLORS.gray
-                }}>
-                    <Text style={{
-                        fontSize: 18,
-                        fontWeight: '600',
-                        right: 0,
-                        textAlign: 'right',
-                        writingDirection: 'rtl',
-                        fontFamily: 'Amiri_700Bold',
-                    }}> 
-                    ﻳِمَلٰعْلا ِّبَر ِهَّلِل ُدْمَحْلﻳِمَلٰعْلا ِّبَر ِهَّلِل ُدْمَحْلﻳِمَلٰعْلا ِّبَر ِهَّلِل ُدْمَحْلﻳِمَلٰعْلا ِّبَر ِهَّلِل ُدْمَحْلﻦﻳِمَلٰعْلا ِّبَر ِهَّلِل ُدْمَحْلا
-                    </Text>
-                    <Text style={{
-                        fontSize: 16,
-                        marginTop: 10,
-                        marginBottom: 20,
-                    }}> [All] praise is [due] to Allah, Lord of the worlds -</Text>
-                </View>
-
+                    </View>
+                ))}
             </View>
         )
     }
 
     if (!fontsLoaded) {
         return (
-        <View><Text>LOADING...</Text></View>);
-      } else {
-    return (
-        <SafeAreaView style={styles.container}>
-            {RenderHeader()}
+            <View><Text>LOADING...</Text></View>);
+    } else {
+        return (
+            <SafeAreaView style={styles.container}>
+                {RenderHeader()}
+                <ScrollView showsVerticalScrollIndicator={false}>
+                <LinearGradient
+                    colors={[COLORS.primary, COLORS.secondary2]}
+                    start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{
 
-            <LinearGradient
-                colors={[COLORS.primary, COLORS.secondary2]}
-                start={{ x: 0, y: 1 }}
-                end={{ x: 1, y: 1 }}
-                style={{
+                        marginTop: 25,
+                        marginHorizontal: 25,
+                        borderRadius: 12,
+                        height: 257,
+                    }}>
 
-                    marginTop: 25,
-                    marginHorizontal: 25,
-                    borderRadius: 12,
-                    height: 257,
-                }}>
+                    <View style={{
+                        alignItems: 'center'
+                    }}>
+                        <View
+                            style={{
+                                alignItems: 'center',
+                                marginVertical: 10
+                            }}>
+                            <Text style={{
+                                marginTop: 10,
+                                fontSize: 26,
+                                fontWeight: '600',
+                                color: COLORS.white
+                            }}>{chapter.name_simple}</Text>
+                            <Text style={{
+                                marginTop: 5,
+                                fontSize: 16,
+                                color: COLORS.white
+                            }}>{chapter.name_simple}</Text>
+                        </View>
+                        <Image
+                            source={icons.divider}
+                            style={{
+                                marginVertical: 15,
+                                width: 200,
+                                tintColor: COLORS.white
+                            }}
+                        />
 
-                <View style={{
-                    alignItems: 'center'
-                }}>
-                    <View
-                        style={{
-                            alignItems: 'center',
-                            marginVertical: 10
-                        }}>
-                        <Text style={{
-                            marginTop: 10,
-                            fontSize: 26,
-                            fontWeight: '600',
-                            color: COLORS.white
-                        }}>{chapter.name_simple}</Text>
                         <Text style={{
                             marginTop: 5,
                             fontSize: 16,
-                            color: COLORS.white
-                        }}>{chapter.name_simple}</Text>
+                            fontWeight: '600',
+                            color: COLORS.white,
+                            textTransform: 'uppercase'
+                        }}>{chapter.revelation_place} • {chapter.verses_count} Verses</Text>
+                        <Image
+                            source={icons.bismillah}
+                            resizeMode='stretch'
+                            style={{
+                                marginTop: 35,
+                                width: 214,
+                                height: 48,
+                            }}
+                        />
                     </View>
                     <Image
-                        source={icons.divider}
-                        style={{
-                            marginVertical: 15,
-                            width: 200,
-                            tintColor: COLORS.white
-                        }}
-                    />
-
-                    <Text style={{
-                        marginTop: 5,
-                        fontSize: 16,
-                        fontWeight: '600',
-                        color: COLORS.white,
-                        textTransform: 'uppercase'
-                    }}>{chapter.revelation_place} • {chapter.verses_count} Verses</Text>
-                    <Image
-                        source={icons.bismillah}
+                        source={icons.quran}
                         resizeMode='stretch'
                         style={{
-                            marginTop: 35,
-                            width: 214,
-                            height: 48,
+                            width: 314,
+                            height: 180,
+                            right: 0,
+                            bottom: 2,
+                            position: 'absolute',
+                            opacity: 0.1
                         }}
                     />
-                </View>
-                <Image
-                    source={icons.quran}
-                    resizeMode='stretch'
-                    style={{
-                        width: 314,
-                        height: 180,
-                        right: 0,
-                        bottom: 2,
-                        position: 'absolute',
-                        opacity: 0.1
-                    }}
-                />
-            </LinearGradient >
-
-            {RenderVerses()}
-        </SafeAreaView>
-    ); }
+                </LinearGradient >
+                {RenderVerses(verses)}
+                </ScrollView>
+            </SafeAreaView>
+        );
+    }
 };
 
 // define your styles
