@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         color: COLORS.secondary,
         fontSize: 20,
-        fontWeight: "600",
+        fontWeight: "800",
     },
 });
