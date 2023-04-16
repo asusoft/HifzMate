@@ -9,10 +9,16 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/amiri": "^0.2.3",
+    "axios": "^0.24.0",
     "expo": "~48.0.11",
+    "expo-app-loading": "^2.1.1",
+    "expo-font": "~11.1.1",
+    "expo-linear-gradient": "~12.1.2",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
-    "react-native": "0.71.6"
+    "react-native": "0.71.6",
+    "react-native-linear-gradient": "^2.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
