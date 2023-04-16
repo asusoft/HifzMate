@@ -8,7 +8,6 @@ import COLORS from '../../assets/constants/colors';
 import icons from '../../assets/constants/icons';
 
 import Header from '../components/Header';
-import BottomTab from '../components/BottomTab';
 
 import {
     useFonts,
@@ -57,15 +56,6 @@ const Chapter = () => {
     }, [chapterID]);
 
     React.useEffect(() => {
-        axios.get(`https://api.quran.gading.dev/surah/${chapterID}`)
-            .then(res => {
-                const verses = res.data.data.verses;
-                setVerses(verses)
-            })
-    }, [chapterID]);
-
-
-    React.useEffect(() => {
         const fetchVerses = async () => {
             try {
                 const allVerses = [];
@@ -78,14 +68,13 @@ const Chapter = () => {
                 }
 
                 const verses = await Promise.all(fetchPromises);
-
+                setVerses(verses)
                 allVerses.push(...verses);
             } catch (error) {
                 console.error(error);
             }
         };
         fetchVerses();
-        console.log(verses)
     }, [chapter]);
 
 
@@ -130,7 +119,7 @@ const Chapter = () => {
                     marginTop: 35,
                 }}>
                     {verses.map((verse) => (
-                     <View key={verse.number.inSurah}>
+                     <View key={verse.number}>
                      <View style={{
                         marginTop: 10,
                         marginHorizontal: 25,
@@ -161,7 +150,7 @@ const Chapter = () => {
                             <Text style={{
                                 fontSize: 14,
                                 color: COLORS.secondary
-                            }}>{verse.number.inSurah}</Text>
+                            }}>{verse.number}</Text>
                         </View>
                     </View>
                     <View style={{
@@ -178,12 +167,12 @@ const Chapter = () => {
                             writingDirection: 'rtl',
                             fontFamily: 'Amiri_700Bold',
                         }}>
-                            {verse.text.arab} </Text>
+                            {verse.text} </Text>
                         <Text style={{
                             fontSize: 16,
                             marginTop: 10,
                             marginBottom: 20,
-                        }}> {verse.translation.en}</Text>
+                        }}> {verse.translation}</Text>
                     </View>
                     </View>
                 ))}
