@@ -31,7 +31,8 @@ const NumberGuess = () => {
         <SafeAreaView style={{
             flex: 1,
             backgroundColor: COLORS.background,
-            opacity: modalVisible ? 0.2 : 1}}>
+            opacity: modalVisible ? 0.2 : 1
+        }}>
             <LinearGradient
                 colors={[COLORS.primary, COLORS.secondary2]}
                 start={{ x: 0, y: 1 }}
@@ -114,14 +115,20 @@ const NumberGuess = () => {
                 backgroundColor: COLORS.secondary,
                 paddingHorizontal: 20
             }}>
-                <View style={{ right: 0, marginStart: 30, justifyContent: 'center' }}>
+                <Pressable
+                    onPress={() => setModalVisible(true)}
+                    style={{
+                        right: 0,
+                        marginStart: 30,
+                        justifyContent: 'center'
+                    }}>
                     <Text numberOfLines={1} style={{
                         fontSize: 24,
                         fontWeight: '600',
                         color: COLORS.white,
                         fontFamily: 'Amiri_700Bold',
                     }}>{verse.arabic_text}</Text>
-                </View>
+                </Pressable>
             </View>
 
             <View style={{
@@ -139,7 +146,7 @@ const NumberGuess = () => {
 
             <VerseModal modalVisible={modalVisible} verse={verse} closeModal={closeModal} />
             {/* Footer */}
-            <Pressable onPress={() => setModalVisible(true)} style={styles.Footer}>
+            <Pressable style={styles.Footer}>
                 <Text style={{ fontSize: 24, color: COLORS.white, fontWeight: "800" }}> Submit</Text>
             </Pressable>
         </SafeAreaView>
@@ -175,7 +182,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-      },
+    },
 });
 
 //make this component available to the app
