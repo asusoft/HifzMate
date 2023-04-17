@@ -6,10 +6,11 @@ import Chapter from './src/screens/Chapter';
 import Challenge from './src/screens/Challenge';
 import ChallengeInfo from './src/screens/ChallengeInfo';
 import VerseGuess from './src/screens/VerseGuess';
+import NumberGuess from './src/screens/NumberGuess';
 
 export default function App() {
   return (
-      <VerseGuess/>
+      <NumberGuess/>
   );
 }
 

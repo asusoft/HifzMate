@@ -26,9 +26,13 @@ const VerseGuess = () => {
 
     const closeModal = () => {
         setModalVisible(false);
-      };
+    };
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={{
+            flex: 1,
+            backgroundColor: COLORS.background,
+            opacity: modalVisible ? 0.2 : 1
+        }}>
             <LinearGradient
                 colors={[COLORS.primary, COLORS.secondary2]}
                 start={{ x: 0, y: 1 }}
@@ -446,7 +450,7 @@ const VerseGuess = () => {
 
                 </View>
             </View>
-            <VerseModal modalVisible={modalVisible} verse={verse} closeModal={closeModal}/>
+            <VerseModal modalVisible={modalVisible} verse={verse} closeModal={closeModal} />
             {/* Footer */}
             <Pressable onPress={() => setModalVisible(true)} style={styles.Footer}>
                 <Text style={{ fontSize: 24, color: COLORS.white, fontWeight: "800" }}> Submit</Text>
