@@ -1,6 +1,7 @@
 //import liraries
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 
@@ -11,7 +12,8 @@ import Header from '../components/Header';
 import BottomTab from '../components/BottomTab';
 
 // create a component
-const Home = () => {
+const ChapterList = () => {
+    const navigation = useNavigation();
     const [chapters, setChapters] = useState([])
 
     React.useEffect(() => {
@@ -62,7 +64,11 @@ const Home = () => {
 
             <View>
                 {chapters.map((chapter) => (
-                    <View
+                    <Pressable
+                        onPress={() =>
+                            navigation.navigate('Chapter',
+                                { chapter_ID: chapter.id }
+                            )}
                         key={chapter.id}
                         style={{
                             marginHorizontal: 25,
@@ -118,7 +124,7 @@ const Home = () => {
                             color: COLORS.secondary,
                             fontFamily: 'Amiri_700Bold',
                         }}>{chapter.name_arabic}</Text>
-                    </View>
+                    </Pressable>
                 ))}
             </View>
         )
@@ -177,6 +183,7 @@ const Home = () => {
                 }
                 rightComponent={
                     <Pressable
+                        onPress={() => navigation.navigate('Game')}
                         style={{
                             alignItems: "center",
                             justifyContent: "center",
@@ -218,7 +225,7 @@ const Home = () => {
                     <Text style={{
                         fontSize: 24,
                         fontWeight: 700
-                    }}>Abubakarii  Umar</Text>
+                    }}>Abubakar Umar</Text>
                 </View >
 
                 <LinearGradient
@@ -341,4 +348,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Home;
+export default ChapterList;

@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component, useState } from 'react';
+import React from 'react';
 import { View, Text, Modal, StyleSheet, Pressable, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import COLORS from '../../assets/constants/colors';

@@ -1,8 +1,6 @@
 //import liraries
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, ScrollView} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import axios from 'axios';
+import React from 'react';
+import { View, Text, StyleSheet, Pressable, Image, SafeAreaView} from 'react-native';
 
 import COLORS from '../../assets/constants/colors';
 import icons from '../../assets/constants/icons';

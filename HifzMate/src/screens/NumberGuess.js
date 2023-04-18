@@ -1,17 +1,17 @@
 //import liraries
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, Pressable, Image, SafeAreaView, ScrollView, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, TextInput } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 
 import COLORS from '../../assets/constants/colors';
 import icons from '../../assets/constants/icons';
-
-import Header from '../components/Header';
 import VerseModal from '../components/VerseModal';
 
 // create a component
 const NumberGuess = () => {
+    const navigation = useNavigation();
     const [verse, setVerse] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
 
@@ -146,7 +146,9 @@ const NumberGuess = () => {
 
             <VerseModal modalVisible={modalVisible} verse={verse} closeModal={closeModal} />
             {/* Footer */}
-            <Pressable style={styles.Footer}>
+            <Pressable
+                onPress={() => navigation.goBack()}
+                style={styles.Footer}>
                 <Text style={{ fontSize: 24, color: COLORS.white, fontWeight: "800" }}> Submit</Text>
             </Pressable>
         </SafeAreaView>

@@ -1,17 +1,17 @@
 //import liraries
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Modal, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, Pressable, Image, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 
 import COLORS from '../../assets/constants/colors';
 import icons from '../../assets/constants/icons';
-
-import Header from '../components/Header';
 import VerseModal from '../components/VerseModal';
 
 // create a component
 const VerseGuess = () => {
+    const navigation = useNavigation();
     const [verse, setVerse] = useState([])
     const [modalVisible, setModalVisible] = useState(false)
 
@@ -170,7 +170,7 @@ const VerseGuess = () => {
                         paddingHorizontal: 10,
                         borderRadius: 10,
                         flexDirection: 'row',
-                        backgroundColor: COLORS.primary,
+                        backgroundColor: COLORS.primary2,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
@@ -203,7 +203,7 @@ const VerseGuess = () => {
                         paddingHorizontal: 10,
                         borderRadius: 10,
                         flexDirection: 'row',
-                        backgroundColor: COLORS.primary,
+                        backgroundColor: COLORS.primary2,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
@@ -243,7 +243,7 @@ const VerseGuess = () => {
                         paddingHorizontal: 10,
                         borderRadius: 10,
                         flexDirection: 'row',
-                        backgroundColor: COLORS.primary,
+                        backgroundColor: COLORS.primary2,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
@@ -276,7 +276,7 @@ const VerseGuess = () => {
                         paddingHorizontal: 10,
                         borderRadius: 10,
                         flexDirection: 'row',
-                        backgroundColor: COLORS.primary,
+                        backgroundColor: COLORS.primary2,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
@@ -452,7 +452,7 @@ const VerseGuess = () => {
             </View>
             <VerseModal modalVisible={modalVisible} verse={verse} closeModal={closeModal} />
             {/* Footer */}
-            <Pressable onPress={() => setModalVisible(true)} style={styles.Footer}>
+            <Pressable onPress={() => navigation.goBack()} style={styles.Footer}>
                 <Text style={{ fontSize: 24, color: COLORS.white, fontWeight: "800" }}> Submit</Text>
             </Pressable>
         </SafeAreaView>

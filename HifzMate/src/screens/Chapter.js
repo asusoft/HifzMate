@@ -1,5 +1,6 @@
 //import liraries
 import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
@@ -19,6 +20,10 @@ import {
 
 // create a component
 const Chapter = () => {
+    const navigation = useNavigation();
+    const route = useRoute();
+
+    const chapter_ID = route.params?.chapter_ID;
 
     let [fontsLoaded] = useFonts({
         Amiri_400Regular,
@@ -27,9 +32,13 @@ const Chapter = () => {
         Amiri_700Bold_Italic,
     });
 
-    const [chapterID, setChapterID] = useState(2);
+    const [chapterID, setChapterID] = useState();
     const [chapter, setChapter] = useState([]);
     const [verses, setVerses] = useState([])
+
+    React.useEffect(() => {
+        setChapterID(chapter_ID)
+    }, [chapter_ID])
 
     const fetchVerse = async (verseNumber) => {
         try {
@@ -89,6 +98,7 @@ const Chapter = () => {
                 titleStyle={{}}
                 leftComponent={
                     <Pressable
+                    onPress={() => navigation.goBack()}
                         style={{
                             alignItems: "center",
                             justifyContent: "center",

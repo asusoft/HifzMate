@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@expo-google-fonts/amiri": "^0.2.3",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "axios": "^0.24.0",
     "expo": "~48.0.11",
     "expo-app-loading": "^2.1.1",
@@ -19,6 +21,7 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.6",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-linear-gradient": "^2.6.2"
   },
   "devDependencies": {

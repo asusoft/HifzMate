@@ -1,17 +1,19 @@
 //import liraries
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Pressable, Image, SafeAreaView, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 import COLORS from '../../assets/constants/colors';
 import icons from '../../assets/constants/icons';
 
 import Header from '../components/Header';
 import BottomTab from '../components/BottomTab';
+
 // create a component
 const Challenge = () => {
 
+    const navigation = useNavigation();
     function RenderHeader() {
         return (
             <Header
@@ -76,6 +78,7 @@ const Challenge = () => {
                 }
                 middleComponent={
                     <Pressable
+                        onPress={() => navigation.navigate('Home')}
                         style={{
                             alignItems: "center",
                             justifyContent: "center",
@@ -84,7 +87,6 @@ const Challenge = () => {
                             borderRadius: 25,
                             backgroundColor: COLORS.inactive
                         }}
-
                     >
                         <Image
                             source={icons.reader}
@@ -141,34 +143,37 @@ const Challenge = () => {
                         borderRadius: 12,
                         height: 126,
                     }}>
+                    <Pressable
+                        onPress={() =>
+                            navigation.navigate('VerseGuess')}>
+                        <View style={{
+                            margin: 25
+                        }}>
+                            <Text style={{
+                                fontSize: 26,
+                                fontWeight: '800',
+                                color: COLORS.white
+                            }}>Verse Guess</Text>
+                            <Text style={{
+                                fontSize: 18,
+                                marginTop: 5,
+                                color: COLORS.white
+                            }}>Guess the previous and the next verse</Text>
 
-                    <View style={{
-                        margin: 25
-                    }}>
-                        <Text style={{
-                            fontSize: 26,
-                            fontWeight: '800',
-                            color: COLORS.white
-                        }}>Verse Guess</Text>
-                         <Text style={{
-                            fontSize: 18,
-                            marginTop: 5,
-                            color: COLORS.white
-                        }}>Guess the previous and the next verse</Text>
-
-                    </View>
-                    <Image
-                        source={icons.quran}
-                        resizeMode='stretch'
-                        style={{
-                            width: 284,
-                            height: 87,
-                            right: 0,
-                            bottom: 2,
-                            position: 'absolute',
-                            opacity: 0.1
-                        }}
-                    />
+                        </View>
+                        <Image
+                            source={icons.quran}
+                            resizeMode='stretch'
+                            style={{
+                                width: 284,
+                                height: 87,
+                                right: 0,
+                                bottom: 2,
+                                position: 'absolute',
+                                opacity: 0.1
+                            }}
+                        />
+                    </Pressable>
                 </LinearGradient >
                 <LinearGradient
                     colors={[COLORS.primary, COLORS.secondary2]}
@@ -181,34 +186,37 @@ const Challenge = () => {
                         borderRadius: 12,
                         height: 126,
                     }}>
+                    <Pressable
+                        onPress={() =>
+                            navigation.navigate('NumberGuess')}>
+                        <View style={{
+                            margin: 25
+                        }}>
+                            <Text style={{
+                                fontSize: 26,
+                                fontWeight: '800',
+                                color: COLORS.white
+                            }}>Number Guess</Text>
+                            <Text style={{
+                                fontSize: 18,
+                                marginTop: 5,
+                                color: COLORS.white
+                            }}>Guess the number of the verse in the surah</Text>
 
-                    <View style={{
-                        margin: 25
-                    }}>
-                        <Text style={{
-                            fontSize: 26,
-                            fontWeight: '800',
-                            color: COLORS.white
-                        }}>Number Guess</Text>
-                         <Text style={{
-                            fontSize: 18,
-                            marginTop: 5,
-                            color: COLORS.white
-                        }}>Guess the number of the verse in the surah</Text>
-
-                    </View>
-                    <Image
-                        source={icons.quran}
-                        resizeMode='stretch'
-                        style={{
-                            width: 284,
-                            height: 87,
-                            right: 0,
-                            bottom: 2,
-                            position: 'absolute',
-                            opacity: 0.1
-                        }}
-                    />
+                        </View>
+                        <Image
+                            source={icons.quran}
+                            resizeMode='stretch'
+                            style={{
+                                width: 284,
+                                height: 87,
+                                right: 0,
+                                bottom: 2,
+                                position: 'absolute',
+                                opacity: 0.1
+                            }}
+                        />
+                    </Pressable>
                 </LinearGradient >
             </ScrollView>
             {RenderBottomtab()}
